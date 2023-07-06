@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>プロキシサイト</title>
+</head>
+<body>
+  <h1>プロキシサイト</h1>
+  <input id="urlInput" type="text" placeholder="URLを入力してください">
+  <button onclick="fetchUrl()">検索</button>
+  <div id="content"></div>
+
+  <script>
+    function fetchUrl() {
+      var urlInput = document.getElementById("urlInput");
+      var url = urlInput.value;
+      var contentDiv = document.getElementById("content");
+      
+      fetch(url)
+        .then(function(response) {
+          return response.text();
+        })
+        .then(function(content) {
+          contentDiv.innerHTML = content;
+        })
+        .catch(function(error) {
+          contentDiv.innerHTML = "エラーが発生しました: " + error.message;
+        });
+    }
+  </script>
+</body>
+</html>
