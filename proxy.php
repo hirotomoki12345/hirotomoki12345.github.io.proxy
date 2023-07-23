@@ -1,21 +1,23 @@
 <?php
-if (isset($_GET['url'])) {
-  $url = $_GET['url'];
+// PHProxyスクリプトの設定ファイルを読み込む
+require_once 'config.php';
 
-  // プロキシサーバーでCORSを許可する
-  header("Access-Control-Allow-Origin: *");
-  header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-
-  // 指定されたURLにリクエストを送信
-  $response = @file_get_contents($url);
-
-  if ($response === false) {
-    echo "エラーが発生しました";
-  } else {
-    // レスポンスを出力
-    echo $response;
-  }
-} else {
-  echo "URLが指定されていません";
+// URLの入力チェック
+if (empty($_GET['url'])) {
+  die('URLを入力してください');
 }
+
+// 指定されたURLにアクセスするためのcURLセッションを初期化
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $_GET['url']);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+// cURLを使用してURLにアクセスし、結果を取得
+$result = curl_exec($ch);
+
+// cURLセッションを終了
+curl_close($ch);
+
+// 取得した結果を表示
+echo $result;
 ?>
