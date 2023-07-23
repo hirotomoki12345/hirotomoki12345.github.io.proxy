@@ -27,6 +27,10 @@
       height: 400px;
       border: 1px solid #ccc;
     }
+
+    #errorMessage {
+      color: red;
+    }
   </style>
 </head>
 <body>
@@ -35,13 +39,27 @@
     <input type="text" id="urlInput" placeholder="URLを入力してください">
     <button id="submitButton" onclick="loadURL()">表示</button>
   </form>
+  <div id="errorMessage"></div>
   <iframe id="outputFrame"></iframe>
 
   <script>
     function loadURL() {
       const urlInput = document.getElementById("urlInput").value;
       const outputFrame = document.getElementById("outputFrame");
-      outputFrame.src = urlInput;
+      const errorMessage = document.getElementById("errorMessage");
+
+      if (urlInput.trim() === "") {
+        errorMessage.textContent = "URLを入力してください";
+        outputFrame.src = "";
+        return;
+      }
+
+      errorMessage.textContent = "";
+
+      const proxyURL = "https://cors-anywhere.herokuapp.com/"; // プロキシサーバーのURL（例）
+      const fullURL = proxyURL + urlInput;
+
+      outputFrame.src = fullURL;
     }
   </script>
 </body>
