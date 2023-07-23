@@ -1,30 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>プロキシサイト</title>
+  <title>シンプルなプロキシサイト</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    #urlInput {
+      width: 60%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+
+    #submitButton {
+      padding: 8px 16px;
+    }
+
+    #outputFrame {
+      width: 80%;
+      height: 400px;
+      border: 1px solid #ccc;
+    }
+  </style>
 </head>
 <body>
-  <h1>プロキシサイト</h1>
-  <input id="urlInput" type="text" placeholder="URLを入力してください">
-  <button onclick="fetchUrl()">検索</button>
-  <div id="content"></div>
+  <h1>シンプルなプロキシサイト</h1>
+  <form onsubmit="return false;">
+    <input type="text" id="urlInput" placeholder="URLを入力してください">
+    <button id="submitButton" onclick="loadURL()">表示</button>
+  </form>
+  <iframe id="outputFrame"></iframe>
 
   <script>
-    function fetchUrl() {
-      var urlInput = document.getElementById("urlInput");
-      var url = urlInput.value;
-      var contentDiv = document.getElementById("content");
-      
-      fetch(url)
-        .then(function(response) {
-          return response.text();
-        })
-        .then(function(content) {
-          contentDiv.innerHTML = content;
-        })
-        .catch(function(error) {
-          contentDiv.innerHTML = "エラーが発生しました: " + error.message;
-        });
+    function loadURL() {
+      const urlInput = document.getElementById("urlInput").value;
+      const outputFrame = document.getElementById("outputFrame");
+      outputFrame.src = urlInput;
     }
   </script>
 </body>
