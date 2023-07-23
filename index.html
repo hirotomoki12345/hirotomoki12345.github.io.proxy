@@ -6,7 +6,7 @@
 <body>
   <h1>プロキシサイト</h1>
   <form>
-    <input type="text" id="urlInput" placeholder="URLを入力してください">
+    <input type="text" id="urlInput" placeholder="URLね">
     <button type="button" onclick="loadURL()">表示</button>
   </form>
   <div id="output"></div>
@@ -26,13 +26,18 @@
 
       // プロキシサーバーを経由して指定されたURLにアクセス
       fetch(proxyURL + encodeURIComponent(urlInput))
-        .then(response => response.text())
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("ネットワークエラーが発生しました");
+          }
+          return response.text();
+        })
         .then(data => {
           // レスポンスを表示
           outputDiv.innerHTML = data;
         })
         .catch(error => {
-          outputDiv.textContent = "エラーが発生しました";
+          outputDiv.textContent = error.message;
         });
     }
   </script>
