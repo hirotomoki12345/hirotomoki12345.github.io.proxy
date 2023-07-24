@@ -9,6 +9,7 @@
     <input type="text" id="urlInput" class="input-field" placeholder="ページを埋め込むリンクを入力してください (https://を含む)">
     <button id="submitBtn" class="submit-btn">埋め込む</button>
   </div>
+  <div id="resultContainer"></div>
   <script>
     (function () {
       // ボタンをクリックした時の処理を設定
@@ -25,19 +26,24 @@
             return response.text();
           })
           .then(content => {
-            // Create a new window and display the fetched content in an iframe
-            var win = window.open();
-            win.document.body.style.margin = "0";
-            win.document.body.style.height = "100vh";
-            var iframe = win.document.createElement("iframe");
+            // Create an iframe and set the fetched content as its source
+            var iframe = document.createElement("iframe");
             iframe.style.border = "none";
             iframe.style.width = "100%";
-            iframe.style.height = "100%";
+            iframe.style.height = "100vh";
             iframe.style.margin = "0";
             iframe.referrerpolicy = "no-referrer";
             iframe.allow = "fullscreen";
             iframe.srcdoc = content; // Set the fetched content as srcdoc
-            win.document.body.appendChild(iframe);
+
+            // Remove previous result if any
+            var resultContainer = document.getElementById("resultContainer");
+            while (resultContainer.firstChild) {
+              resultContainer.removeChild(resultContainer.firstChild);
+            }
+
+            // Append the iframe to the result container
+            resultContainer.appendChild(iframe);
           })
           .catch(error => {
             alert('Error fetching content: ' + error.message);
