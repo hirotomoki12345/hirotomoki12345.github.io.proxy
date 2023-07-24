@@ -26,12 +26,15 @@ if (isset($_GET['url'])) {
         
         // Output the fetched content
         echo $response;
+        exit; // Important: End the script here to prevent further output.
     } else {
-header('Access-Control-Allow-Origin: *');
+        header('HTTP/1.1 400 Bad Request');
         echo 'Invalid URL';
+        exit; // Important: End the script here to prevent further output.
     }
 } else {
     header('HTTP/1.1 400 Bad Request');
     echo 'Missing URL parameter';
+    exit; // Important: End the script here to prevent further output.
 }
 ?>
