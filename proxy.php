@@ -27,7 +27,7 @@ if (isset($_GET['url'])) {
         // Output the fetched content
         echo $response;
     } else {
-        header('HTTP/1.1 400 Bad Request');
+header('Access-Control-Allow-Origin: *');
         echo 'Invalid URL';
     }
 } else {
