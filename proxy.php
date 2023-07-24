@@ -1,6 +1,7 @@
 <?php
 if (isset($_GET['url'])) {
     $url = $_GET['url'];
+    echo 'Received URL: ' . $url;
     
     // Validate the URL to prevent security risks and only allow specific domains if needed.
     if (filter_var($url, FILTER_VALIDATE_URL)) {
