@@ -16,31 +16,32 @@
       submitBtn.addEventListener("click", function () {
         var url = document.getElementById("urlInput").value;
 
-        // Make an AJAX request to the PHP script to fetch the content
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-              // Create a new window and display the fetched content in an iframe
-              var win = window.open();
-              win.document.body.style.margin = "0";
-              win.document.body.style.height = "100vh";
-              var iframe = win.document.createElement("iframe");
-              iframe.style.border = "none";
-              iframe.style.width = "100%";
-              iframe.style.height = "100%";
-              iframe.style.margin = "0";
-              iframe.referrerpolicy = "no-referrer";
-              iframe.allow = "fullscreen";
-              iframe.srcdoc = xhr.responseText; // Set the fetched content as srcdoc
-              win.document.body.appendChild(iframe);
-            } else {
-              alert('Error fetching content: ' + xhr.statusText);
+        // Use the Fetch API to fetch the content
+        fetch(url)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
             }
-          }
-        };
-        xhr.open('GET', 'proxy.php?url=' + encodeURIComponent(url), true);
-        xhr.send();
+            return response.text();
+          })
+          .then(content => {
+            // Create a new window and display the fetched content in an iframe
+            var win = window.open();
+            win.document.body.style.margin = "0";
+            win.document.body.style.height = "100vh";
+            var iframe = win.document.createElement("iframe");
+            iframe.style.border = "none";
+            iframe.style.width = "100%";
+            iframe.style.height = "100%";
+            iframe.style.margin = "0";
+            iframe.referrerpolicy = "no-referrer";
+            iframe.allow = "fullscreen";
+            iframe.srcdoc = content; // Set the fetched content as srcdoc
+            win.document.body.appendChild(iframe);
+          })
+          .catch(error => {
+            alert('Error fetching content: ' + error.message);
+          });
       });
     })();
   </script>
