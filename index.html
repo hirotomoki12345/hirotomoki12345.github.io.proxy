@@ -11,44 +11,6 @@
   </div>
   <script>
     (function () {
-      // スタイルを追加するためのCSSを生成
-      var style = document.createElement("style");
-      style.textContent = `
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        .container {
-            max-width: 500px;
-            padding: 20px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-            background-color: #ffffff;
-        }
-        .input-field {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-        .submit-btn {
-            background-color: #4CAF50;
-            color: #ffffff;
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-      `;
-      document.head.appendChild(style);
-
       // ボタンをクリックした時の処理を設定
       var submitBtn = document.getElementById("submitBtn");
       submitBtn.addEventListener("click", function () {
