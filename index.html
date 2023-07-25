@@ -9,15 +9,34 @@
       align-items: center;
       height: 100vh;
       margin: 0;
-      background: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);
-      background-size: 1000% 100%;
-      animation: rainbow-background 15s infinite;
+      overflow: hidden;
+      background: #000;
     }
 
-    @keyframes rainbow-background {
-      0% { background-position: 0 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0 50%; }
+    /* Styles for the animated lines */
+    .animated-lines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .animated-line {
+      position: absolute;
+      width: 1px;
+      height: 100%;
+      background: linear-gradient(to bottom, violet, indigo, blue, green, yellow, orange, red);
+      animation: move-line 4s linear infinite;
+    }
+
+    @keyframes move-line {
+      0% {
+        transform: translateY(-100%);
+      }
+      100% {
+        transform: translateY(100%);
+      }
     }
 
     .container {
@@ -29,6 +48,8 @@
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
       border-radius: 5px;
       background-color: #ffffff;
+      position: relative;
+      z-index: 1; /* Ensure the container is above the lines */
     }
 
     .input-field {
@@ -53,6 +74,28 @@
     h1 {
       font-size: 48px;
       margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid #000;
+      animation: typing 1.5s steps(12), blink-caret 0.75s step-end infinite;
+    }
+
+    @keyframes typing {
+      0% {
+        width: 0;
+      }
+      50% {
+        width: 300px; /* Adjust width as needed */
+      }
+      100% {
+        width: 300px;
+      }
+    }
+
+    @keyframes blink-caret {
+      from, to { border-color: transparent; }
+      50% { border-color: #000; }
     }
 
     h2 {
@@ -68,8 +111,24 @@
   </style>
 </head>
 <body>
+  <div class="animated-lines">
+    <!-- Generate multiple animated lines with random positions and animations -->
+    <script>
+      for (let i = 0; i < 100; i++) {
+        const delay = Math.random() * 8; // Random delay for animation start
+        const duration = Math.random() * 5 + 2; // Random duration between 2 and 7 seconds
+        const position = Math.random() * 100; // Random position between 0 and 100%
+        const line = document.createElement('div');
+        line.classList.add('animated-line');
+        line.style.left = `${position}%`;
+        line.style.animation = `move-line ${duration}s linear ${delay}s infinite`;
+        document.querySelector('.animated-lines').appendChild(line);
+      }
+    </script>
+  </div>
+
   <div class="container">
-    <h1>P Proxy</h1>
+    <h1>Psan Network</h1>
     <h2>URLを入力してください</h2>
     <input
       type="text"
