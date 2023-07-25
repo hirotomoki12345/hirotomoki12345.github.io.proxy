@@ -50,7 +50,8 @@
   inputField.setAttribute("type", "text");
   inputField.setAttribute("class", "input-field");
   inputField.setAttribute("placeholder", "ページを埋め込むリンクを入力してください (https://を含む)");
-  
+  inputField.value = "https://hypertabs.cc/"; // Set the URL directly
+
   // 送信ボタンを生成
   var submitBtn = document.createElement("button");
   submitBtn.setAttribute("class", "submit-btn");
@@ -84,7 +85,6 @@
   container.appendChild(submitBtn);
   document.body.appendChild(container);
 })();
-
     </script>
 </body>
 </html>
