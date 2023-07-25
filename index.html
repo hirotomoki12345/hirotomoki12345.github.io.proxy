@@ -27,7 +27,7 @@
       width: 1px;
       height: 100%;
       background: linear-gradient(to bottom, violet, indigo, blue, green, yellow, orange, red);
-      animation: move-line 4s linear infinite;
+      animation: move-line 8s linear infinite;
     }
 
     @keyframes move-line {
@@ -50,6 +50,16 @@
       background-color: #ffffff;
       position: relative;
       z-index: 1; /* Ensure the container is above the lines */
+      animation: fadeIn 3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
     }
 
     .input-field {
@@ -58,7 +68,19 @@
       font-size: 16px;
       border: 1px solid #ccc;
       border-radius: 5px;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
+      animation: fadeInUp 3s ease-in-out;
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .submit-btn {
@@ -69,6 +91,16 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      animation: zoomIn 2s ease-in-out;
+    }
+
+    @keyframes zoomIn {
+      0% {
+        transform: scale(0);
+      }
+      100% {
+        transform: scale(1);
+      }
     }
 
     h1 {
@@ -78,7 +110,7 @@
       overflow: hidden;
       white-space: nowrap;
       border-right: 2px solid #000;
-      animation: typing 1.5s steps(12), blink-caret 0.75s step-end infinite;
+      animation: typing 3s steps(12), blink-caret 0.75s step-end infinite;
     }
 
     @keyframes typing {
@@ -101,12 +133,87 @@
     h2 {
       font-size: 18px;
       margin-bottom: 5px;
+      animation: fadeInRight 2s ease-in-out;
+    }
+
+    @keyframes fadeInRight {
+      0% {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
 
     .description {
       font-size: 14px;
       text-align: center;
       margin-top: 5px;
+      animation: fadeInLeft 2s ease-in-out;
+    }
+
+    @keyframes fadeInLeft {
+      0% {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Loading Screen Styles */
+    .loading-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .loading-icon {
+      width: 60px;
+      height: 60px;
+      border: 6px solid rgba(255, 255, 255, 0.3);
+      border-top: 6px solid #fff;
+      border-radius: 50%;
+      animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-text {
+      font-size: 18px;
+      color: #fff;
+      margin-top: 10px;
+      animation: fadeInLoading 2s ease-in-out;
+    }
+
+    @keyframes fadeInLoading {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
     }
   </style>
 </head>
@@ -116,7 +223,7 @@
     <script>
       for (let i = 0; i < 100; i++) {
         const delay = Math.random() * 8; // Random delay for animation start
-        const duration = Math.random() * 5 + 2; // Random duration between 2 and 7 seconds
+        const duration = Math.random() * 10 + 5; // Random duration between 5 and 15 seconds
         const position = Math.random() * 100; // Random position between 0 and 100%
         const line = document.createElement('div');
         line.classList.add('animated-line');
@@ -129,7 +236,7 @@
 
   <div class="container">
     <h1>Psan Network</h1>
-    <h2>URLを入力してください</h2>
+    <h2 class="input-label">URLを入力してください</h2>
     <input
       type="text"
       class="input-field"
@@ -139,11 +246,18 @@
     <p class="description">プロキシサイトへようこそ。安全なウェブブラウジングをお楽しみください。</p>
   </div>
 
+  <!-- Loading Screen -->
+  <div class="loading-screen">
+    <div class="loading-icon"></div>
+    <div class="loading-text">Loading...</div>
+  </div>
+
   <script>
     (function () {
       var inputField = document.querySelector(".input-field");
-
       var submitBtn = document.querySelector(".submit-btn");
+      var loadingScreen = document.querySelector(".loading-screen");
+
       submitBtn.textContent = "埋め込む";
 
       submitBtn.addEventListener("click", function () {
@@ -153,21 +267,33 @@
           url = "https://hypertabs.cc/";
         }
 
-        var win = window.open();
-        win.document.body.style.margin = "0";
-        win.document.body.style.height = "100vh";
+        // Show loading screen on button click
+        loadingScreen.style.opacity = "1";
+        loadingScreen.style.pointerEvents = "all";
 
-        var iframe = win.document.createElement("iframe");
-        iframe.style.border = "none";
-        iframe.style.width = "100%";
-        iframe.style.height = "100%";
-        iframe.style.margin = "0";
-        iframe.referrerpolicy = "no-referrer";
-        iframe.allow = "fullscreen";
-        iframe.src = url.toString();
-        win.document.body.appendChild(iframe);
+        // Simulate a 4-second delay for loading the iframe
+        setTimeout(function () {
+          var win = window.open();
+          win.document.body.style.margin = "0";
+          win.document.body.style.height = "100vh";
+
+          var iframe = win.document.createElement("iframe");
+          iframe.style.border = "none";
+          iframe.style.width = "100%";
+          iframe.style.height = "100%";
+          iframe.style.margin = "0";
+          iframe.referrerpolicy = "no-referrer";
+          iframe.allow = "fullscreen";
+          iframe.src = url.toString();
+          win.document.body.appendChild(iframe);
+
+          // Hide loading screen after the iframe loads
+          setTimeout(function () {
+            loadingScreen.style.opacity = "0";
+            loadingScreen.style.pointerEvents = "none";
+          }, 1000); // Adjust the delay as needed
+        }, 3000); // Adjust the loading time as needed
       });
-
     })();
   </script>
 </body>
