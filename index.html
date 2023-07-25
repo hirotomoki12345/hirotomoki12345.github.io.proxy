@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>プロキシサイト</title>
+  <title>p proxy</title>
   <style>
     body {
       display: flex;
@@ -9,8 +9,17 @@
       align-items: center;
       height: 100vh;
       margin: 0;
-      background-color: #f0f0f0;
+      background: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);
+      background-size: 1000% 100%;
+      animation: rainbow-background 15s infinite;
     }
+
+    @keyframes rainbow-background {
+      0% { background-position: 0 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0 50%; }
+    }
+
     .container {
       display: flex;
       flex-direction: column;
@@ -21,6 +30,7 @@
       border-radius: 5px;
       background-color: #ffffff;
     }
+
     .input-field {
       width: 100%;
       padding: 10px;
@@ -29,6 +39,7 @@
       border-radius: 5px;
       margin-bottom: 10px;
     }
+
     .submit-btn {
       background-color: #4CAF50;
       color: #ffffff;
@@ -38,25 +49,42 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .description {
+      font-size: 14px;
+      text-align: center;
+      margin-top: 5px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>プロキシサイト</h1>
+    <h1>P Proxy</h1>
+    <h2>URLを入力してください</h2>
     <input
       type="text"
       class="input-field"
-      placeholder="ページを埋め込むリンクを入力してください (https://を含む)"
+      placeholder="https://を含むリンクを入力"
     />
     <button class="submit-btn">埋め込む</button>
+    <p class="description">プロキシサイトへようこそ。安全なウェブブラウジングをお楽しみください。</p>
   </div>
 
   <script>
     (function () {
       var inputField = document.querySelector(".input-field");
 
-      var submitBtn = document.createElement("button");
-      submitBtn.setAttribute("class", "submit-btn");
+      var submitBtn = document.querySelector(".submit-btn");
       submitBtn.textContent = "埋め込む";
 
       submitBtn.addEventListener("click", function () {
@@ -81,11 +109,6 @@
         win.document.body.appendChild(iframe);
       });
 
-      var container = document.createElement("div");
-      container.setAttribute("class", "container");
-      container.appendChild(inputField);
-      container.appendChild(submitBtn);
-      document.body.appendChild(container);
     })();
   </script>
 </body>
