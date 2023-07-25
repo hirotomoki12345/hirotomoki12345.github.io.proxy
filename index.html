@@ -53,10 +53,7 @@
 
   <script>
     (function () {
-      var inputField = document.createElement("input");
-      inputField.setAttribute("type", "text");
-      inputField.setAttribute("class", "input-field");
-      inputField.setAttribute("placeholder", "ページを埋め込むリンクを入力してください (https://を含む)");
+      var inputField = document.querySelector(".input-field");
 
       var submitBtn = document.createElement("button");
       submitBtn.setAttribute("class", "submit-btn");
